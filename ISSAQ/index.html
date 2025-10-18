@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Integrated Systems – SAQ Practice</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 20px;
+      background: #f8f9fa;
+      color: #212529;
+    }
+    h1 {
+      text-align: center;
+      color: #1a3a6c;
+      margin-bottom: 20px;
+    }
+    .question {
+      background: white;
+      padding: 16px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      border-left: 3px solid #1a3a6c;
+    }
+    .question-text {
+      font-weight: 600;
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+    textarea {
+      width: 100%;
+      height: 100px;
+      padding: 10px;
+      margin: 10px 0;
+      font-family: inherit;
+      border: 1px solid #ced4da;
+      border-radius: 4px;
+    }
+    button {
+      background: #1a3a6c;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .feedback {
+      margin-top: 10px;
+      padding: 10px;
+      background: #e9ecef;
+      border-radius: 4px;
+      display: none;
+    }
+    .score {
+      font-weight: bold;
+      color: #1a3a6c;
+    }
+  </style>
+</head>
+<body>
+  <h1>Integrated Systems – SAQ Practice</h1>
+
+  <!-- Set A -->
+  <div class="question">
+    <div class="question-text">1. State the advantages of using smart devices. [3 marks]</div>
+    <textarea id="q1" placeholder="Type your answer here..."></textarea>
+    <button onclick="grade(1)">Grade Answer</button>
+    <div id="feedback1" class="feedback"></div>
+  </div>
+
+  <div class="question">
+    <div class="question-text">2. Elaborate on the automation feature of a smart device. [3 marks]</div>
+    <textarea id="q2" placeholder="Type your answer here..."></textarea>
+    <button onclick="grade(2)">Grade Answer</button>
+    <div id="feedback2" class="feedback"></div>
+  </div>
+
+  <!-- Set C -->
+  <div class="question">
+    <div class="question-text">3. State THREE disadvantages of using smart devices. [3 marks]</div>
+    <textarea id="q3" placeholder="Type your answer here..."></textarea>
+    <button onclick="grade(3)">Grade Answer</button>
+    <div id="feedback3" class="feedback"></div>
+  </div>
+
+  <div class="question">
+    <div class="question-text">4. Describe the purpose of an SDK architecture diagram. [3 marks]</div>
+    <textarea id="q4" placeholder="Type your answer here..."></textarea>
+    <button onclick="grade(4)">Grade Answer</button>
+    <div id="feedback4" class="feedback"></div>
+  </div>
+
+  <!-- Set B -->
+  <div class="question">
+    <div class="question-text">5. State the features of a smart device. [3 marks]</div>
+    <textarea id="q5" placeholder="Type your answer here..."></textarea>
+    <button onclick="grade(5)">Grade Answer</button>
+    <div id="feedback5" class="feedback"></div>
+  </div>
+
+  <div class="question">
+    <div class="question-text">6. In what way is a smart device being applied for commercial use? [3 marks]</div>
+    <textarea id="q6" placeholder="Type your answer here..."></textarea>
+    <button onclick="grade(6)">Grade Answer</button>
+    <div id="feedback6" class="feedback"></div>
+  </div>
+
+  <script>
+    // Model answers from your mark schemes (split into mark-worthy phrases)
+    const modelConcepts = {
+      1: [
+        "improve efficiency",
+        "reduce costs",
+        "convenient"
+      ],
+      2: [
+        "it can perform certain tasks",
+        "based on schedules",
+        "or triggers"
+      ],
+      3: [
+        "susceptible to hackers",
+        "glitches",
+        "and bugs"
+      ],
+      4: [
+        "it is used to explain the different components of a smart device sdk",
+        "and how they interact with each other",
+        "and also to help developers build apps for smart devices"
+      ],
+      5: [
+        "remote control",
+        "automation",
+        "energy monitoring",
+        "security"
+      ],
+      6: [
+        "help businesses to improve energy efficiency",
+        "by automating tasks",
+        "and providing data into operations",
+        "improve customer experience",
+        "personalized services",
+        "convenience"
+      ]
+    };
+
+    function normalize(text) {
+      return text
+        .toLowerCase()
+        .replace(/[^a-z0-9\s]/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    function grade(qNum) {
+      const studentAnswer = document.getElementById(`q${qNum}`).value;
+      if (!studentAnswer.trim()) {
+        alert("Please enter an answer.");
+        return;
+      }
+
+      const concepts = modelConcepts[qNum] || [];
+      const normAnswer = normalize(studentAnswer);
+      let score = 0;
+      let missing = [];
+
+      for (let concept of concepts) {
+        const normConcept = normalize(concept);
+        const words = normConcept.split(" ").filter(Boolean);
+        let found = 0;
+        for (const w of words) {
+          if (normAnswer.includes(w)) found++;
+        }
+        if ((found / words.length) >= 0.6) {
+          score++;
+        } else {
+          missing.push(concept);
+        }
+      }
+
+      // For Q5 and Q6, max marks = 3 (any 3 concepts)
+      const maxMarks = qNum === 5 || qNum === 6 ? 3 : concepts.length;
+      const finalScore = Math.min(score, maxMarks);
+
+      let feedback = `<div class="score">Score: ${finalScore} / ${maxMarks}</div>`;
+      if (finalScore < maxMarks) {
+        const hints = missing.slice(0, maxMarks - finalScore);
+        feedback += `<div>Missing crucial information related to: ${hints.join(', ')}</div>`;
+      } else {
+        feedback += "<div>Excellent! All key points covered.</div>";
+      }
+
+      document.getElementById(`feedback${qNum}`).innerHTML = feedback;
+      document.getElementById(`feedback${qNum}`).style.display = 'block';
+    }
+  </script>
+</body>
+</html>

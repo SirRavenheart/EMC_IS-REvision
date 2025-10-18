@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Integrated Systems Revision – Section A (MCQ)</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      max-width: 850px;
+      margin: 20px auto;
+      padding: 20px;
+      background: #f8f9fa;
+      color: #212529;
+    }
+    h1 {
+      text-align: center;
+      color: #1a3a6c;
+      margin-bottom: 10px;
+    }
+    .question {
+      background: white;
+      padding: 18px;
+      margin-bottom: 25px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      border-left: 3px solid #1a3a6c;
+    }
+    .question-text {
+      margin-bottom: 12px;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+    .option {
+      margin: 6px 0;
+    }
+    label {
+      display: block;
+      padding: 6px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    input[type="radio"] {
+      margin-right: 8px;
+    }
+    .diagram {
+      margin: 12px 0;
+      max-width: 100%;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      background: white;
+      text-align: center;
+      padding: 8px 0;
+    }
+    .diagram img {
+      max-width: 100%;
+      height: auto;
+      border: none;
+      display: block;
+      margin: 0 auto;
+    }
+    .diagram-caption {
+      font-size: 0.85em;
+      color: #6c757d;
+      margin-top: 6px;
+    }
+    .wrong-answer {
+      background-color: #f8d7da !important;
+      border: 2px solid #dc3545 !important;
+    }
+    button {
+      display: block;
+      margin: 20px auto;
+      padding: 12px 30px;
+      background: #1a3a6c;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1.1em;
+      cursor: pointer;
+    }
+    button:hover:not(:disabled) {
+      background: #132a4d;
+    }
+    button:disabled {
+      background: #6c757d;
+      cursor: not-allowed;
+    }
+    .total-score {
+      text-align: center;
+      font-size: 1.4em;
+      font-weight: bold;
+      margin-top: 20px;
+      padding: 15px;
+      background: #e9ecef;
+      border-radius: 8px;
+      min-height: 2em;
+      opacity: 0;
+      transition: opacity 0.4s ease-in-out;
+    }
+    .total-score.show {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <h1>Integrated Systems</h1>
+  <p style="text-align:center; color:#6c757d;">IS – Multiple Choice Questions</p>
+
+  <form id="mcqForm"></form>
+
+  <button id="checkBtn" type="button" onclick="checkAnswers()">Check Answers</button>
+  <div id="totalScore" class="total-score"></div>
+
+  <script>
+    // Fisher-Yates shuffle
+    function shuffleArray(array) {
+      const shuffled = [...array];
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+      return shuffled;
+    }
+
+    // Direct image URLs from your SharePoint links
+    const figA = "https://ibtebrunei-my.sharepoint.com/personal/reza_matlajim_ibte_edu_bn/_layouts/15/download.aspx?share=EZVgcJrvf4xHqHAPPMflVEkBltPsqrqTXBZS-8WZRzQDTQ";
+    const figB = "https://ibtebrunei-my.sharepoint.com/personal/reza_matlajim_ibte_edu_bn/_layouts/15/download.aspx?share=ETHPAgsh6eFAoALwOcoP9ysBxvLyERplw1s9mwdSgjxRWg";
+    const figC = "https://ibtebrunei-my.sharepoint.com/personal/reza_matlajim_ibte_edu_bn/_layouts/15/download.aspx?share=ER035CgTd_hApWa_VNQKhE4BUMIiKWAsddOfIczcKNclZQ";
+
+    const originalMcqs = [
+      // ===== SET A (10) =====
+      [
+        "One function of a PLC input interface module is to ___",
+        ["Modify the PLC program.", "Run the user PLC program.", "Accept signals from field devices.", "Control the machine or process from input field devices."],
+        2,
+        false
+      ],
+      [
+        "How to write an output symbol in Ladder programming?",
+        ["-| |-", "-( )-", "-| / |-", "-/ /-"],
+        1,
+        false
+      ],
+      [
+        "The memory of PLC can be classified into two broad categories such as _____",
+        ["Data and Backup memory", "Data and Program memory", "Format and Backup memory", "Short-term and Long-term memory"],
+        1,
+        false
+      ],
+      [
+        "Output modules are represented by the _____",
+        ["The letter “Q” or “I”", "The letter “I” or “Y”", "The letter “Q” or “Y”", "The letter “X” or “Y”"],
+        2,
+        false
+      ],
+      [
+        "What are the different types of input modules used in PLC?",
+        ["Only digital type input modules", "Only analog type input modules", "Both analog and digital type input modules", "Neither analog and digital type input modules"],
+        2,
+        false
+      ],
+      [
+        "What is the function of an opto-isolator?",
+        ["To detect any optical disturbances", "To combine an optical device and isolator", "To light up the power circuit and control circuit", "To keep external circuits separated from internal circuits"],
+        3,
+        false
+      ],
+      [
+        "In early industrial controls, switching of electrical loads was handled mainly through ___",
+        ["PIC", "Lever", "Manual switching", "Electromagnetic relays"],
+        3,
+        false
+      ],
+      [
+        "Which of the following are distinct advantages that PLCs offer over conventional relay-based control systems?",
+        ["Faster Response Time, Easier to Troubleshoot", "Lower Cost, Communications Capability", "Increased Reliability, More Flexibility", "All of the above"],
+        3,
+        false
+      ],
+      [
+        "Decide whether each of these statements is True (T) or False (F). As shown in the diagram below, there is an output when: (i) Inputs 1 and 2 are both activated. (ii) Either one of inputs 1 and 2 is not activated.",
+        ["(i) T (ii) T", "(i) T (ii) F", "(i) F (ii) T", "(i) F (ii) F"],
+        0,
+        `<div class="diagram"><img src="${figA}" alt="Ladder logic diagram"><div class="diagram-caption">Ladder logic diagram</div></div>`
+      ],
+      [
+        "A logical NOR circuit can be represented by _____",
+        ["Two or more sets of NC contacts in series", "Two or more sets of NO contacts in series", "Two or more sets of NC contacts in parallel", "Two or more sets of NO contacts in parallel"],
+        0,
+        false
+      ],
+
+      // ===== SET B (10) =====
+      [
+        "Which of the following is not the function of a PLC processing unit.",
+        ["Send signals to output devices.", "Convert signals from field devices.", "Accept digital or analog input signals.", "Provide electrical isolation for input signals."],
+        3,
+        false
+      ],
+      [
+        "In a PLC program, ‘I’ and ‘Q’ used for which of the following respectively?",
+        ["Relay and Input, respectively.", "Input and Output, respectively.", "Output and Input, respectively.", "Output and Relay, respectively."],
+        1,
+        false
+      ],
+      [
+        "What represents the horizontal line in a ladder diagram programming language?",
+        ["Coil", "Rung", "Power supply", "Intersect Line"],
+        1,
+        false
+      ],
+      [
+        "What are the main components of a PLC?",
+        ["Processor, Memory, Relay, Power supply, Input, Output", "Processor, Memory, Optocoupler, Power supply, Input, Output", "Processor, Memory, Relay, Programming device, Input, Output", "Processor, Memory, Programming device, Power supply, Input, Output"],
+        3,
+        false
+      ],
+      [
+        "What is the difference between an On-Delay timer and an Off-Delay timer?",
+        ["On-Delay timer starts timing when power is lost.", "Off-Delay timer starts timing when power is lost.", "On-Delay timer keeps its time when power is lost.", "Off-Delay timer keeps its time when power is lost."],
+        1,
+        false
+      ],
+      [
+        "All the possible input and output conditions of a particular relay circuit are summarized on a _____",
+        ["Encoder", "Decoder", "Converter", "Truth table"],
+        3,
+        false
+      ],
+      [
+        "In Boolean equation, a bar above a letter or letters indicates a logical _____",
+        ["OR", "NOT", "AND", "ZERO"],
+        1,
+        false
+      ],
+      [
+        "When the timing of a device is not reset on a loss of power, the timing is said to be _____",
+        ["Saved", "Holding", "Retentive", "Continuous"],
+        2,
+        false
+      ],
+      [
+        "Decide whether each of these statements is True (T) or False (F). As shown in the diagram below, there is an output when: (i) Input 1 is momentarily activated before reverting to its normally open state. (ii) Input 2 is activated.",
+        ["(i) T (ii) T", "(i) T (ii) F", "(i) F (ii) T", "(i) F (ii) F"],
+        1,
+        `<div class="diagram"><img src="${figB}" alt="Ladder logic diagram"><div class="diagram-caption">Ladder logic diagram</div></div>`
+      ],
+      [
+        "The PLC chassis comes in different sizes according to the _____",
+        ["size of the program", "type of I/O modules used", "number of slots contained", "All of the statements above"],
+        2,
+        false
+      ],
+
+      // ===== SET C (10) =====
+      [
+        "One function of a PLC input field device is to ____",
+        ["Supply power to the PLC.", "Display data on a screen.", "Control the output devices.", "Send signals to the processor."],
+        3,
+        false
+      ],
+      [
+        "Which of the following statements is CORRECT?",
+        ["Writing method for OR is \" - \"", "Writing method for OR is \" x \"", "Writing method for AND is \" . \"", "Writing method for AND is \" o \""],
+        2,
+        false
+      ],
+      [
+        "What is the correct PLC scan cycle operation order?",
+        ["Read the input, Update the output.", "Read the input, Execute the logic, Update the output.", "Execute the logic, Read the input, Update the output.", "Read the input, Update the output, Execute the logic."],
+        1,
+        false
+      ],
+      [
+        "Which of the following is a mounting based plate of input/output modules, power supply, CPU?",
+        ["File", "Box", "Rack", "Frame"],
+        2,
+        false
+      ],
+      [
+        "Which software is used for Siemens PLC?",
+        ["Durus", "LOGO!", "WPLSoft", "RS Logix"],
+        1,
+        false
+      ],
+      [
+        "Decide whether each of these statements is True (T) or False (F). (i) An off-delay timer starts to accumulate time when the rung becomes true. (ii) The output of an up-counter is energized whenever the accumulated count is less than or equal to the preset count.",
+        ["(i) T (ii) T", "(i) T (ii) F", "(i) F (ii) T", "(i) F (ii) F"],
+        3,
+        false
+      ],
+      [
+        "Which arrangement of inputs is described by the Boolean relationship Ā+B?",
+        ["Input A is in series with input B, both inputs being normally off.", "Input A is in parallel with input B, both inputs being normally off.", "Input A, normally off, is in series with input B which is normally on.", "Input A, normally on, is in parallel with input B which is normally off."],
+        3,
+        false
+      ],
+      [
+        "What is the process of transferring program logic from PLC to PC?",
+        ["Uploading", "Transporting", "Downloading", "All of the above"],
+        2,
+        false
+      ],
+      [
+        "Decide whether each of these statements is True (T) or False (F). As shown in the diagram below: (i) When only input 1 contact is activated, there is an output. (ii) When only input 2 contacts are activated, there is an output.",
+        ["(i) T (ii) T", "(i) T (ii) F", "(i) F (ii) T", "(i) F (ii) F"],
+        1,
+        `<div class="diagram"><img src="${figC}" alt="Ladder logic diagram"><div class="diagram-caption">Ladder logic diagram</div></div>`
+      ],
+      [
+        "If stored information is lost when electric power is lost, the memory is said to be _____",
+        ["Saved", "Retentive", "Non-volatile", "Not retentive"],
+        3,
+        false
+      ]
+    ];
+
+    // Shuffle and render
+    const mcqs = shuffleArray(originalMcqs);
+    const form = document.getElementById('mcqForm');
+    mcqs.forEach((q, index) => {
+      const [text, options, correctIndex, diagramHtml] = q;
+      const qNum = index + 1;
+      const questionDiv = document.createElement('div');
+      questionDiv.className = 'question';
+      let optionsHtml = '';
+      options.forEach((opt, i) => {
+        const letter = String.fromCharCode(65 + i);
+        optionsHtml += `<div class="option"><label><input type="radio" name="q${qNum}" value="${i}"> ${letter}) ${opt}</label></div>`;
+      });
+      questionDiv.innerHTML = `<div class="question-text">${qNum}. ${text}</div>${optionsHtml}${diagramHtml || ''}`;
+      form.appendChild(questionDiv);
+    });
+
+    let hasChecked = false;
+    function checkAnswers() {
+      if (hasChecked) return;
+      document.getElementById('checkBtn').textContent = 'Review Answers';
+      document.getElementById('checkBtn').disabled = true;
+      hasChecked = true;
+
+      let score = 0;
+      mcqs.forEach((q, index) => {
+        const qNum = index + 1;
+        const correctIndex = q[2];
+        const selected = document.querySelector(`input[name="q${qNum}"]:checked`);
+        document.querySelectorAll(`input[name="q${qNum}"]`).forEach(input => input.parentElement.classList.remove('wrong-answer'));
+
+        if (selected) {
+          if (parseInt(selected.value) === correctIndex) {
+            score++;
+          } else {
+            selected.parentElement.classList.add('wrong-answer');
+          }
+        }
+      });
+
+      const scoreDiv = document.getElementById('totalScore');
+      scoreDiv.textContent = `Score: ${score} / ${mcqs.length}`;
+      scoreDiv.classList.add('show');
+    }
+  </script>
+</body>
+</html>
